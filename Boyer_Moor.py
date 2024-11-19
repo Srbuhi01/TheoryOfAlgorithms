@@ -1,33 +1,47 @@
-def last_occurrence(pattern):
-    #the last occurrence dictionary
-    last = {}
-    for i in range(len(pattern)):
-        last[pattern[i]] = i
-    return last
+pattern = input("Input pattern: ")
+text = input("Input text: ")
 
-def Boyer_Moore(text, pattern):
-    m = len(pattern)
-    n = len(text)
-    last = last_occurrence(pattern)  
-    i = 0    # Starting index for text
+T = set()  # unikal symbol
+patlen = len(pattern)  
+table = {}  # Axyusak
 
-    while i <= n - m: 
-        j = m - 1  # Start from the end of the pattern
+# Axyusaki stexcum
+for i in range(patlen - 2, -1, -1):  # naxavejinic sksac
+    if pattern[i] not in T:
+        table[pattern[i]] = patlen - i - 1
+        T.add(pattern[i])
 
-        # Move backwards in pattern as long as characters match
-        while j >= 0 and pattern[j] == text[i + j]:
-            j -= 1
+# verjin symboli hamar
+if pattern[patlen - 1] not in T:
+    table[pattern[patlen - 1]] = patlen
 
-        # If `j` becomes -1,  match is found
-        if j == -1:
-            return f"Found at index {i}"
+table['*'] = patlen
 
-        # `last.get(text[i + j], -1)` gives -1 if character is not in `pattern`
-        else:
-            i += max(1, j - last.get(text[i + j], -1))
+print("table:", table)
 
-    return "Pattern not found"
+n = len(text)
+found = False  # gtnvel e ardyoq patterny
 
-text = "trusthardtoothbrushes"
-pattern = "tooth"
-print(Boyer_Moore(text, pattern))
+if n >= patlen:
+    i = patlen - 1
+
+    while i < n:
+        k = 0
+        for j in range(patlen - 1, -1, -1):  # ajic dzax
+            if text[i - k] != pattern[j]:
+                if j == patlen - 1:
+                    off = table[text[i]] if text[i] in table else table["*"]
+                else:
+                    off = table[pattern[j]]
+                i += off
+                break
+            k += 1
+        else:  
+            print(f"Pattern is found, starting index: {i - k + 1}")
+            found = True
+            i += patlen  # hajord hnaravor arkayutyuny
+else:
+    print("Pattern is not found")
+
+if not found:
+    print("Pattern is not found")
