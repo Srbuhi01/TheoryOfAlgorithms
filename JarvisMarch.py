@@ -26,12 +26,10 @@ def jarvis_march(points):
         p = q  # Move to the next point
     return hull
 
-# Example usage
 points = [(0, 0), (2, 1), (1, 2), (3, 3), (4, 0), (5, 2), (2, 3), (2, 5), (3, 7), (2, 2)]
 
 convex_hull = jarvis_march(points)
 
-# Output the Convex Hull
 print("Convex Hull:", convex_hull)
 
 import matplotlib.pyplot as plt
