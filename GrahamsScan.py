@@ -1,7 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 
-#  orientation of  (p, q, r)
+#  orientation 
 def orientation(p, q, r):
     val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
     if val == 0:
@@ -16,10 +16,10 @@ def graham_scan(points):
     #  lowest y-coordinate (and leftmost)
     start = min(points, key=lambda p: (p[1], p[0]))
 
-    #  Sort the points based on polar angle with respect to the 'start' point
+    #  Sort the points 
     sorted_points = sorted(points, key=lambda p: (math.atan2(p[1] - start[1], p[0] - start[0]), distance(start, p)))
 
-    # Step 3: Initialize the hull with the start point and the first point in the sorted list
+    #  Initialize the hull with the start point and the first point in the sorted list
     hull = [start, sorted_points[0]]
 
     # Process each point
@@ -30,16 +30,12 @@ def graham_scan(points):
 
     return hull
 
-# Example usage
 points = [(0, 0), (2, 1), (1, 2), (3, 3), (4, 0), (5, 2), (2, 3), (2, 5), (3, 7), (2, 2)]
 
-# Perform Graham's Scan to find the Convex Hull
 convex_hull = graham_scan(points)
 
-# Output the Convex Hull
 print("Convex Hull:", convex_hull)
 
-# Plotting the points and Convex Hull
 x_points, y_points = zip(*points)
 x_hull, y_hull = zip(*convex_hull)
 
